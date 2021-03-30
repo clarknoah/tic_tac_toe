@@ -1,0 +1,8 @@
+.Tile {
+    min-width: 150px;
+    min-height: 150px;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

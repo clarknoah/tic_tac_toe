@@ -50,22 +50,25 @@ class TicTacToe {
 
     changePlayer(){
         if(this.currentTurn.id == "p1"){
-            this.currentTurn = this["p2"]
+            this.currentTurn = this.p2;
         }else{
-            this.currentTurn = this["p1"]
+            this.currentTurn = this.p1;
         }
     }
 
     conductTurn(location:number){
-        this.selectLocation(location);
-        let wonGame: boolean = this.checkForWinner();
-        if(wonGame){
-            this.setWinner();
-            this.endGame()
-        }else if(this.selectedTiles < 9){
-            this.changePlayer();
-        }else{
-            this.endGame();
+        let validMove = this.selectLocation(location);
+        if(validMove){
+            let wonGame: boolean = this.checkForWinner();
+            if(wonGame){
+                this.setWinner();
+                this.endGame()
+            }else if(this.selectedTiles < 9){
+                this.changePlayer();
+            }else{
+                this.endGame();
+            }
+
         }
         //Select player locatin
         //Determine if win on this turn
@@ -75,13 +78,28 @@ class TicTacToe {
     }
 
     selectLocation(location: number){
-        this.board[location].setTile(this.currentTurn.symbol);
-        this.selectedTiles++;
-        this.checkForWinner();
+        if(!this.board[location].used){
+            this.board[location].setTile(this.currentTurn.symbol);
+            this.selectedTiles++;
+            return true;
+        }else{
+            console.log("Already selected");
+            return false;
+        }
     }
 
     checkForWinner(){
-
+        console.log("calling check for winner", this.currentTurn.id);
+        let playerSymbol = this.currentTurn.symbol;
+        for(let i = 0; i < this.winningStates.length; i++){
+            let [a, b, c]= this.winningStates[i];
+            let matchFound =     this.board[a].display === playerSymbol 
+                              && this.board[b].display === playerSymbol 
+                              && this.board[c].display === playerSymbol
+            if(matchFound){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -93,7 +111,7 @@ class TicTacToe {
     endGame(){
         this.gameInPlay = false;
         if(this.winnerOfRound.length == 0){
-            this.winnerOfRound = 
+            //this.winnerOfRound = 
         }
     }
 

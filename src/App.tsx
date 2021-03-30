@@ -1,26 +1,46 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TicTacToe from "./models/TicTacToe";
+import Tile from "./components/Tile/Tile";
 
-function App() {
-  return (
+class App extends React.Component<{},{game:TicTacToe}>{
+  constructor(props: any){
+    super(props)
+    this.state = {
+      game: new TicTacToe("p1","p2")
+    }
+  }
+
+  selectTile = (tile:number)=>{
+    let game = this.state.game;
+    console.log(tile);
+    game.conductTurn(tile);
+    this.setState({game})
+  }
+
+
+  render(){
+    let game = this.state.game;
+    let board = game.board.map((tile,index)=>{
+      return (
+              <Tile 
+                display={tile.display} 
+                number={index}
+                onClick={this.selectTile}
+              />
+              )
+    })
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+   
+      </div>
+      <div className="Board">
+        {board}
+      </div>
     </div>
-  );
+  );}
 }
 
 export default App;
